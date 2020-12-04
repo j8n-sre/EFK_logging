@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elastic-configmap
+  namespace: logging
+data:
+  elasticsearch.yml: |
+    index.number_of_shards: 1
+    index.number_of_replicas: 0
