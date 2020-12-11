@@ -42,7 +42,7 @@ metadata:
   namespace: logging
 spec:
   ports:
-  - nodePort: 32011
+  - nodePort: 32013
     port: 5601
     protocol: TCP
     targetPort: 5601

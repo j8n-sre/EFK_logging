@@ -8,9 +8,9 @@ data:
     <source>
       @type tail
       @id in_tail_container_logs
-      path /var/log/containers/gateway-svc-*.log
-      pos_file /var/log/fluentd-containers.log.pos
-      tag "#{ENV['FLUENT_CONTAINER_TAIL_TAG'] || 'kubernetes.*'}"
+      path /var/log/containers/*.log
+      pos_file /var/log/containers.log.pos
+      tag kubernetes.*
       read_from_head true
       <parse>
         @type json
@@ -20,17 +20,24 @@ data:
 
     <filter kubernetes.**>
       @type kubernetes_metadata
-      @id filter_kube_metadata
     </filter>
   
     <match kubernetes.**>
-       @type elasticsearch_dynamic
+       @type elasticsearch
+       @log_level info
        host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
        port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
+       scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
        logstash_format true
-       logstash_prefix ${record['kubernetes']['namespace_name']}
        <buffer>
            @type file
            path /var/log/fluent/container.*.buffer
+           chunk_limit_size 8MB
+           total_limit_size 256MB
+           chunk_full_threshold 0.95
+           flush_mode interval
+           flush_interval 10s
+           overflow_action drop_oldest_chunk
+           retry_timeout 24h
        </buffer>
     </match>
