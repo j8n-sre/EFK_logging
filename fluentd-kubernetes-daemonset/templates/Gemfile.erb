@@ -21,7 +21,7 @@ gem "elasticsearch", "~> 6.0"
 gem "fluent-plugin-elasticsearch", "~> 4.0.9"
 <% when "elasticsearch7" %>
 gem "elasticsearch", "~> 7.0"
-gem "fluent-plugin-elasticsearch", "~> 4.1.1"
+gem "fluent-plugin-elasticsearch", "~> 4.3.3"
 gem "elasticsearch-xpack", "~> 7.0"
 gem "fluent-plugin-dedot_filter", "~> 1.0"
 <% when "logentries" %>
@@ -35,7 +35,7 @@ gem "fluent-plugin-cloudwatch-logs", "~> 0.11.1"
 gem "fluent-plugin-google-cloud", "~> 0.4.10"
 <% when "azureblob" %>
 gem "azure-storage-blob", "~> 2.0"
-gem "fluent-plugin-azure-storage-append-blob", "~> 0.2.0"
+gem "fluent-plugin-azure-storage-append-blob-lts", "~> 0.3.0"
 <% when "s3" %>
 gem "aws-sdk-s3", "~> 1.75"
 gem "fluent-plugin-s3", "~> 1.4.0"
@@ -59,7 +59,7 @@ gem "fluent-plugin-kinesis", "~> 3.2.3"
 <% when "splunkhec" %>
 gem "fluent-plugin-splunk-enterprise"
 <% end %>
-gem "fluent-plugin-kubernetes_metadata_filter", "~> 2.3.0"
+gem "fluent-plugin-kubernetes_metadata_filter", "~> 2.5.0"
 <% if !is_alpine %>
 gem "ffi"
 gem "fluent-plugin-systemd", "~> 1.0.1"

@@ -34,6 +34,7 @@
    logstash_dateformat "#{ENV['FLUENT_ELASTICSEARCH_LOGSTASH_DATEFORMAT'] || '%Y.%m.%d'}"
    logstash_format "#{ENV['FLUENT_ELASTICSEARCH_LOGSTASH_FORMAT'] || 'true'}"
    index_name "#{ENV['FLUENT_ELASTICSEARCH_LOGSTASH_INDEX_NAME'] || 'logstash'}"
+   target_index_key "#{ENV['FLUENT_ELASTICSEARCH_TARGET_INDEX_KEY'] || use_nil}"
    type_name "#{ENV['FLUENT_ELASTICSEARCH_LOGSTASH_TYPE_NAME'] || 'fluentd'}"
    include_timestamp "#{ENV['FLUENT_ELASTICSEARCH_INCLUDE_TIMESTAMP'] || 'false'}"
    template_name "#{ENV['FLUENT_ELASTICSEARCH_TEMPLATE_NAME'] || use_nil}"
@@ -102,9 +103,9 @@
   <buffer>
     @type file
     path /var/log/fluentd-buffers/s3.buffer
-    timekey 3600
+    timekey "#{ENV['S3_TIMEKEY'] || '3600'}"
     timekey_use_utc true
-    chunk_limit_size 256m
+    chunk_limit_size "#{ENV['S3_CHUNK_LIMIT_SIZE'] || '256m'}"
   </buffer>
 </match>
 <%  when "gcs"%>
@@ -153,16 +154,17 @@
   @type azure-storage-append-blob
   @id out_azure_storage_append_blob
 
-  azure_storage_account         "#{ENV['AZUREBLOB_ACCOUNT_NAME']}"
-  azure_storage_access_key      "#{ENV['AZUREBLOB_ACCOUNT_KEY']}"
-  azure_storage_sas_token       "#{ENV['AZUREBLOB_SAS_TOKEN']}"
-  azure_container               "#{ENV['AZUREBLOB_CONTAINER']}"
-  azure_imds_api_version        "#{ENV['AZUREBLOB_IMDS_API_VERSION']}"
-  azure_token_refresh_interval  "#{ENV['AZUREBLOB_TOKEN_REFRESH_INTERVAL']}"
-  auto_create_container         true
-  path                          "#{ENV['AZUREBLOB_LOG_PATH']}"
-  azure_object_key_format       %{path}%{time_slice}_%{index}.log
-  time_slice_format             %Y%m%d-%H
+  azure_storage_account           "#{ENV['AZUREBLOB_ACCOUNT_NAME']}"
+  azure_storage_access_key        "#{ENV['AZUREBLOB_ACCOUNT_KEY']}"
+  azure_storage_connection_string "#{ENV['AZUREBLOB_CONNECTION_STRING']}"
+  azure_storage_sas_token         "#{ENV['AZUREBLOB_SAS_TOKEN']}"
+  azure_container                 "#{ENV['AZUREBLOB_CONTAINER']}"
+  azure_imds_api_version          "#{ENV['AZUREBLOB_IMDS_API_VERSION']}"
+  azure_token_refresh_interval    "#{ENV['AZUREBLOB_TOKEN_REFRESH_INTERVAL']}"
+  auto_create_container           true
+  path                            "#{ENV['AZUREBLOB_LOG_PATH']}"
+  azure_object_key_format         %{path}%{time_slice}_%{index}.log
+  time_slice_format               %Y%m%d-%H
   # if you want to use %{tag} or %Y/%m/%d/ like syntax in path / azure_blob_name_format,
   # need to specify tag for %{tag} and time for %Y/%m/%d in <buffer> argument.
   <buffer>

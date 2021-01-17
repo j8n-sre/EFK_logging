@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: elasticsearch
-        image: elastic/elasticsearch:7.9.3
+        image: elastic/elasticsearch:7.10.1
         resources:
           limits:
             memory: "2Gi"
@@ -42,12 +42,19 @@ spec:
         volumeMounts:
         - name: elasticsearch-data
           mountPath: /usr/share/elasticsearch/data
+        - name: tz-seoul
+          mountPath: /etc/localtime
+          readOnly: true
       nodeSelector:
         kubernetes.io/hostname: devops
       volumes:
       - name: elasticsearch-data
         persistentVolumeClaim:
           claimName: elastic-pvc
+      - name: tz-seoul
+        hostPath:
+          path: /usr/share/zoneinfo/Asia/Seoul
+          type: File
       initContainers:
       - name: elastic-permission
         image: busybox
