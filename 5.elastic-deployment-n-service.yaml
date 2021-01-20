@@ -23,8 +23,8 @@ spec:
             memory: "2Gi"
             cpu: "1000m"
           requests:
-            memory: "1Gi"
-            cpu: "500m"
+            memory: "2Gi"
+            cpu: "1000m"
         env:
         - name: discovery.type
           value: "single-node"
@@ -35,7 +35,7 @@ spec:
             fieldRef:
               fieldPath: spec.nodeName
         - name: ES_JAVA_OPTS
-          value: "-Xms512m -Xmx512m"
+          value: "-Xms1024m -Xmx1024m"
         ports:
         - containerPort: 9200
         - containerPort: 9300
