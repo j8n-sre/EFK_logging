@@ -30,15 +30,6 @@ spec:
           value: "http://elasticsearch-svc.logging.svc:9200"
         ports:
         - containerPort: 5601
-        volumeMounts:
-        - name: tz-seoul
-          mountPath: /etc/localtime
-          readOnly: true
-      volumes:
-      - name: tz-seoul
-        hostPath:
-          path: /usr/share/zoneinfo/Asia/Seoul
-          type: File
       nodeSelector:
         kubernetes.io/hostname: devops
 ---

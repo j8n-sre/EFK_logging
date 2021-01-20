@@ -92,9 +92,6 @@ spec:
           readOnly: true
         - name: fluentd-configmap
           mountPath: /fluentd/etc
-        - name: tz-seoul
-          mountPath: /etc/localtime
-          readOnly: true
       terminationGracePeriodSeconds: 30
       volumes:
       - name: varlog
@@ -106,10 +103,6 @@ spec:
       - name: fluentd-configmap
         configMap:
           name: fluentd-configmap
-      - name: tz-seoul
-        hostPath:
-          path: /usr/share/zoneinfo/Asia/Seoul
-          type: File
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
