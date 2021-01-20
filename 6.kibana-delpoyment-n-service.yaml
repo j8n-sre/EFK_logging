@@ -23,8 +23,8 @@ spec:
             memory: "2Gi"
             cpu: "1000m"
           requests:
-            memory: "1Gi"
-            cpu: "500m"
+            memory: "2Gi"
+            cpu: "1000m"
         env:
         - name: ELASTICSEARCH_HOSTS
           value: "http://elasticsearch-svc.logging.svc:9200"
